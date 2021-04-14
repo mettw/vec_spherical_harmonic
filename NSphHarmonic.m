@@ -85,7 +85,7 @@ classdef NSphHarmonic < handle
 
             surf(hObj.parent.x_sph.*real(hObj.Nang), hObj.parent.y_sph.*real(hObj.Nang), ...
                 hObj.parent.z_sph.*real(hObj.Nang), real(hObj.Nang),...
-                'EdgeColor', 'interp', 'FaceColor','interp');
+                'EdgeColor', 'flat', 'FaceColor','interp');
             switch hObj.parent.parity 
                 case Parity.Even
                     title_str = sprintf('$$|\\mathrm{(r/|r|)\\times N^e_{%d,%d}}|$$', hObj.parent.l, hObj.parent.m);
@@ -134,21 +134,26 @@ classdef NSphHarmonic < handle
             % absolute value of the real parts of the vectors.
             abs_vec = sqrt(real(hObj.Nangx).^2 + real(hObj.Nangy).^2 + real(hObj.Nangz).^2);
             surf(hObj.parent.x_sph.*abs_vec, hObj.parent.y_sph.*abs_vec, hObj.parent.z_sph.*abs_vec,...
-                abs_vec, 'EdgeColor', 'interp', 'FaceColor','interp');
+                abs_vec, 'EdgeColor', 'flat', 'FaceColor','interp');
             
             switch hObj.parent.parity 
                 case Parity.Even
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times N^e_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times N^e_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
                 case Parity.Odd
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times N^o_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times N^o_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
                 otherwise
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times N_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times N_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
             end
             title(title_str,'Interpreter','latex');
             xlabel('x');
             ylabel('y');
             zlabel('z');
+            hold on;
+            surf(hObj.parent.x_sph, hObj.parent.y_sph, hObj.parent.z_sph, real(hObj.parent.Yln_sph),...
+                    'EdgeColor', 'interp', 'FaceColor','none');
+            hold off;
             colormap jet;
+            pbaspect([1 1 1]);
         end
         %% 
         %

@@ -85,11 +85,14 @@ classdef MSphHarmonic < handle
         
         function plot_ang(hObj)
             figure;
-
+%{
             surf(hObj.parent.x_sph.*real(hObj.Mang), hObj.parent.y_sph.*real(hObj.Mang), ...
                 hObj.parent.z_sph.*real(hObj.Mang), real(hObj.Mang),...
-                'EdgeColor', 'interp', 'FaceColor','interp');
-           
+                'EdgeColor', 'flat', 'FaceColor','interp');
+            %}
+            surf(hObj.parent.x_sph.*imag(hObj.Mang), hObj.parent.y_sph.*imag(hObj.Mang), ...
+                hObj.parent.z_sph.*imag(hObj.Mang), real(hObj.Mang),...
+                'EdgeColor', 'flat', 'FaceColor','interp');
             switch hObj.parent.parity 
                 case Parity.Even
                     title_str = sprintf('$$|\\mathrm{(r/|r|)\\times M^e_{%d,%d}}|$$', hObj.parent.l, hObj.parent.m);
@@ -109,7 +112,7 @@ classdef MSphHarmonic < handle
             figure;
 
             quiver3(hObj.parent.x_sph, hObj.parent.y_sph, hObj.parent.z_sph, ...
-                real(hObj.Mangx), real(hObj.Mangy), real(hObj.Mangz), hObj.parent.arrow_scale,...
+                real(hObj.Mangx), real(hObj.Mangy), real(hObj.Mangz), 3,...hObj.parent.arrow_scale,...
                 'Color', 'black', 'LineWidth', 2);
             pbaspect([1 1 1]);
             switch hObj.parent.parity 
@@ -125,9 +128,8 @@ classdef MSphHarmonic < handle
             ylabel('y');
             zlabel('z');
             hold on;
-            surf(hObj.parent.x_sph, hObj.parent.y_sph, hObj.parent.z_sph, real(hObj.Mang),...
-                    'EdgeColor', 'interp', 'FaceColor','none');
-            
+            %surf(hObj.parent.x_sph, hObj.parent.y_sph, hObj.parent.z_sph, real(hObj.parent.Yln_sph),...
+            %        'EdgeColor', 'interp', 'FaceColor','none');
             hold off;
             colormap jet;
         end
@@ -139,18 +141,19 @@ classdef MSphHarmonic < handle
             % absolute value of the real parts of the vectors.
             abs_vec = sqrt(real(hObj.Mangx).^2 + real(hObj.Mangy).^2 + real(hObj.Mangz).^2);
             surf(hObj.parent.x_sph.*abs_vec, hObj.parent.y_sph.*abs_vec, hObj.parent.z_sph.*abs_vec,...
-                abs_vec, 'EdgeColor', 'interp', 'FaceColor','interp');
+                abs_vec, 'EdgeColor', 'flat', 'FaceColor','interp');
             
             pbaspect([1 1 1]);
+            %hObj.set_pbaspect2;
             switch hObj.parent.parity 
                 case Parity.Even
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times M^e_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times M^e_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
                 case Parity.Odd
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times M^o_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times M^o_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
                 otherwise
-                    title_str = sprintf('$$\\mathrm{|Re((r/|r|)\\times M_{%d,%d})|}$$', hObj.parent.l, hObj.parent.m);
+                    title_str = sprintf('$$\\mathrm{|(r/|r|)\\times M_{%d,%d}|}$$', hObj.parent.l, hObj.parent.m);
             end
-            title(title_str,'Interpreter','latex');
+            %title(title_str,'Interpreter','latex');
             xlabel('x');
             ylabel('y');
             zlabel('z');

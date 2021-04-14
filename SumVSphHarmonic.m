@@ -22,6 +22,7 @@ classdef SumVSphHarmonic < handle
         MNangy;
         MNangz;
         MNang;
+        arrow_scale = 6;
         
     end
     
@@ -53,8 +54,7 @@ classdef SumVSphHarmonic < handle
                 throw(ME)
             end
 
-            hObj.v_harmonics{1} = VSphHarmonic('dummy','dummy', num_steps);
-            hObj.v_harmonics{1}.set_l_m_iseven(l_values(1), m_values(1), parity_vals(1));
+            hObj.v_harmonics{1} = VSphHarmonic(l_values(1), m_values(1), parity_vals(1), num_steps);
             scale = 1;
             hObj.Mangx = scale*hObj.v_harmonics{1}.M.Mangx;
             hObj.Mangy = scale*hObj.v_harmonics{1}.M.Mangy;
@@ -72,8 +72,7 @@ classdef SumVSphHarmonic < handle
                 hObj.MNangz = scale*hObj.v_harmonics{1}.N.Nangz;
             end
             for i=2:length(l_values)
-                hObj.v_harmonics{i} = VSphHarmonic('dummy','dummy', num_steps);
-                hObj.v_harmonics{i}.set_l_m_iseven(l_values(i), m_values(i), parity_vals(i));
+                hObj.v_harmonics{i} = VSphHarmonic(l_values(i), m_values(i), parity_vals(i), num_steps);
                 hObj.Mangx = hObj.Mangx + hObj.v_harmonics{i}.M.Mangx;
                 hObj.Mangy = hObj.Mangy + hObj.v_harmonics{i}.M.Mangy;
                 hObj.Mangz = hObj.Mangz + hObj.v_harmonics{i}.M.Mangz;
@@ -229,58 +228,6 @@ classdef SumVSphHarmonic < handle
         % SUNDRY functions
         %
 
-        function set_pbaspect(hObj)
-            % Sets the axes of the spherical harmonic plot so that each axis
-            % has the same scale.  ie, none of the axes are cramped.
-            switch hObj.l
-                case 0
-                    pba = [1 1 1];
-                case 1
-                    switch hObj.m
-                        case -1
-                            pba = [2 1 1];
-                        case 0
-                            pba = [1 1 2];
-                        case 1
-                            pba = [2 1 1];
-                    end
-                case 2
-                    switch hObj.m
-                        case -2
-                            pba = [3 3 1];
-                        case -1
-                            pba = [3 1 3];
-                        case 0
-                            pba = [1 1 4];
-                        case 1
-                            pba = [3 1 3];
-                        case 2
-                            pba = [3 3 1];
-                    end
-                case 3
-                    switch hObj.m
-                        case -3
-                            pba = [4 4 1];
-                        case -2
-                            pba = [3 3 2];
-                        case -1
-                            pba = [3 1 4];
-                        case 0
-                            pba = [1 1 6];
-                        case 1
-                            pba = [3 1 4];
-                        case 2
-                            pba = [3 3 2];
-                        case 3
-                            pba = [4 4 1];
-                    end
-                otherwise
-                    pba = [1 1 1];
-            end
-            if hObj.l<=3
-                pbaspect(pba);
-            end
-        end
     end
 end
 
